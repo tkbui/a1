@@ -1,0 +1,230 @@
+T.K. Bui | CS 185C Section 1 | Assignment 1, due 9/13/2021
+
+===================================================================================================================================
+Script started on 2021-09-13 23:33:13+00:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="189" LINES="52"]
+
+-----------------------------------------------------------------------------------------------------------------------------------
+1) What is your home directory? How did you find out (commands used)?
+
+COMMAND AND RESULT (HOME DIRECTORY):
+bui@f6linuxA7:~$ echo $HOME
+/home/bui
+
+-----------------------------------------------------------------------------------------------------------------------------------
+2) What is your UID? How did you find out (command used)?
+
+COMMAND AND RESULT (USER ID):
+bui@f6linuxA7:~$ echo $UID
+1001
+
+-----------------------------------------------------------------------------------------------------------------------------------
+3) To what group(s) do you belong? How did you find out?
+
+COMMAND AND RESULTS:
+bui@f6linuxA7:~$ id bui
+uid=1001(bui) gid=1001(bui) groups=1001(bui)
+
+EXPLANATION: The groups=... section shows the groups that my user, bui, is a part of. So I'm only part of group bui,
+and its group ID is 1001.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+4) Make a directory "temp". If you remove execute permission for yourself from this temp directory (see chmod man page),
+are you still allowed to create files in that directory? Can you cd into it?  Can you "ls" it?  Can you "ls -l" it?
+
+COMMANDS AND RESULTS:
+bui@f6linuxA7:~$ mkdir temp
+
+bui@f6linuxA7:~$ stat temp
+  File: temp
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: 802h/2050d	Inode: 4720256     Links: 2
+Access: (0775/drwxrwxr-x)  Uid: ( 1001/     bui)   Gid: ( 1001/     bui)
+Access: 2021-09-13 23:34:20.806730861 +0000
+odify: 2021-09-13 23:34:20.806730861 +0000
+Change: 2021-09-13 23:34:20.806730861 +0000
+ Birth: -
+
+bui@f6linuxA7:~$ cd temp
+
+bui@f6linuxA7:~/temp$ cd ..
+
+bui@f6linuxA7:~$ chmod 675 temp
+
+bui@f6linuxA7:~$ stat temp
+  File: temp
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: 802h/2050d	Inode: 4720256     Links: 2
+Access: (0675/drw-rwxr-x)  Uid: ( 1001/     bui)   Gid: ( 1001/     bui)
+Access: 2021-09-13 23:34:20.806730861 +0000
+odify: 2021-09-13 23:34:20.806730861 +0000
+Change: 2021-09-13 23:34:57.962928737 +0000
+ Birth: -
+
+bui@f6linuxA7:~$ touch temp/testfile.txt
+touch: cannot touch 'temp/testfile.txt': Permission denied
+
+bui@f6linuxA7:~$ cd temp
+bash: cd: temp: Permission denied
+
+bui@f6linuxA7:~$ ls temp
+
+bui@f6linuxA7:~$ ls -l temp
+total 0
+
+EXPLANATION: I made the directory "temp" in my home directory and showed that before removing my execute permissions,
+I could cd into it. Then after removing execute permissions from myself for the temp folder,
+I could not create files in temp or cd into it, but I could still do ls and ls -l.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+5) Are you allowed to "mv" a directory? Are you allowed to "cp" a directory? If you want to cp an entire directory,
+how would you do it?
+
+COMMANDS AND RESULTS:
+bui@f6linuxA7:~$ mv temp worksheets
+
+bui@f6linuxA7:~$ ls
+a1.txt  amazon_reviews_us_Books_v1_02.tsv  worksheets
+
+bui@f6linuxA7:~$ cd worksheets
+
+bui@f6linuxA7:~/worksheets$ ls
+a1  temp  ws1  ws2
+
+bui@f6linuxA7:~/worksheets$ cp temp
+cp: missing destination file operand after 'temp'
+Try 'cp --help' for more information.
+
+bui@f6linuxA7:~/worksheets$ cp temp temp2
+cp: -r not specified; omitting directory 'temp'
+
+bui@f6linuxA7:~/worksheets$ cp -r temp temp2 
+
+bui@f6linuxA7:~/worksheets$ ls
+a1  temp  temp2  ws1  ws2
+
+EXPLANATION: I showed that I CAN mv and cp a directory, even temp which I removed my execute permissions.
+For cp, I have to use -r for copying directories.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+6)Using only "ls" (and maybe "grep"), can you find out which file under directory /proc/ contains information 
+about memory (mem) on your server? Which file contains information about the cpu's on your server? 
+
+COMMANDS AND RESULT:
+bui@f6linuxA7:~/worksheets$ cd /proc
+
+bui@f6linuxA7:/proc$ ls
+1       1158    1271    146     1642    190     219     240567  240603  246     267044  278693  291    328    363  400   436  473  549    663  742    885  98           modules
+10      116     1272    147     1643    190031  219526  240568  240604  247061  267322  279     292    329    364  401   437  474  55     667  743    886  99           mounts
+100     116768  1274    148     1644    191     22      240569  240605  248     268     279229  293    33     365  402   438  476  550    668  746    888  99890        net
+101     117     1279    149     1645    192     220     240570  240606  248093  268795  279465  294    330    366  404   44   477  551    68   749    89   buddyinfo    pagetypeinfo
+102     1176    128     15      1646    193634  220992  240571  240607  248174  269     279764  295    331    368  405   440  478  552    681  75     890  bus          partitions
+103439  118     1280    150     1647    194     221     240572  240608  249     269163  279765  296    332    369  406   441  479  553    683  750    897  cgroups      powerpc
+1037    1181    1282    150868  1648    195     222     240573  240609  249996  269236  279774  297    33268  370  407   442  48   554    684  76     898  cmdline      ppc64
+104     1184    1289    151     1649    196     22243   240574  240610  250     269247  279775  298    333    371  408   443  480  56     685  76031  9    consoles     pressure
+105     1186    129     1513    165     196905  224     240575  240611  250395  269518  279813  299    334    372  41    444  481  560    687  77     90   cpuinfo      rtas
+1052    119     1296    152     166     197     225     240576  240612  251     27      279824  3      335    374  410   446  482  561    69   771    900  crypto       sched_debug
+106     1191    1297    153     167     197512  225121  240577  240613  252     270     28      30     336    375  411   447  483  563    691  78     907  device-tree  schedstat
+107     1192    130     154     168     197521  225144  240578  240614  253859  270445  280     300    338    376  412   448  484  564    695  8      909  devices      scsi
+108     1199    1307    155     17      198     225153  240579  240615  254     272     280769  302    339    377  413   449  485  567    696  80     910  diskstats    self
+11      12      1309    1555    170     2       226     240580  240616  254477  272088  280779  303    34     378  414   45   486  568    698  81     92   dma          slabinfo
+110     120     131     156     171     20      227     240581  240617  254891  272090  280781  304    340    379  416   450  487  57     70   813    924  driver       softirqs
+111     1215    1311    1564    172     200     227360  240582  240618  255     273     280786  305    341    38   417   452  488  577    700  815    925  execdomains  stat
+1116    122     1317    1568    173     201     227719  240583  240619  256     273741  280884  306    342    380  418   453  489  58     702  816    93   fb           swaps
+112     1223    132     1570    174     201866  228     240584  240620  257     274     280885  308    343    381  419   454  49   580    704  817    932  filesystems  sys
+1123    1226    132659  158     175     202     23      240585  240621  258     274840  280895  309    344    382  42    455  490  59     71   818    933  fs           sysrq-trigger
+1125    1227    134     159     176     203     230     240586  240622  258551  274937  280949  310    345    383  420   456  491  593    710  82     934  interrupts   sysvipc
+1126    123     135     16      177     204     231     240587  240623  258565  275     280950  31072  346    384  421   458  492  6      711  83     935  iomem        thread-self
+1128    123522  1357    160     178     206     232     240588  240624  259212  275026  281     311    347    386  422   459  493  60     712  84     936  ioports      timer_list
+1129    1239    1358    160015  179     207     233     240589  240625  25972   275033  281332  312    348    387  423   46   495  62     713  844    94   irq          tty
+113     124     136     161     18      208     234     240590  240626  259850  275041  281375  314    35     388  4238  460  496  63     714  849    940  kallsyms     uptime
+1130    1243    137     162     180     209     236     240591  240627  26      275045  281402  315    350    389  424   461  497  635    719  853    944  kcore        version
+1131    1245    1376    1632    181     21      237     240592  240628  260     275046  281403  316    351    39   425   462  498  64     72   854    946  key-users    version_signature
+114     1247    1377    1633    182     210     238     240593  240637  260120  275742  281442  317    352    390  426   464  499  645    721  856    949  keys         vmallocinfo
+1140    125     138     1634    183     211602  239     240594  240712  261     275753  282     318    353    392  428   465  50   647    722  859    95   kmsg         vmstat
+1146    1253    139     1635    184     211621  24      240595  241262  262     276     283     32     354    393  429   466  500  648    725  86     950  kpagecgroup  zoneinfo
+1147    1254    14      1636    185     212     240     240596  242     263     276521  284     320    356    394  43    467  51   64860  727  864    952  kpagecount
+1149    1256    140     1637    185908  213     240559  240597  242600  264     276523  285     321    357    395  430   468  52   64872  732  87     953  kpageflags
+1150    1258    1402    1638    185909  214     240560  240598  243     265669  278     286     322    358    396  431   469  53   64891  734  88     955  loadavg
+1151    126     141     1639    186     215     240563  240599  243922  265680  278077  287     323    359    398  432   47   54   64892  738  880    958  locks
+1152    1262    142     164     188     216     240564  240600  244     266     278666  288     324    36     399  433   470  546  65     74   882    959  mdstat
+1156    1264    143     1640    189     218     240565  240601  244016  266641  278667  29      326    360    4    434   471  547  651    740  883    96   meminfo
+1157    127     144     1641    189561  218981  240566  240602  245     267     278692  290     327    362    40   435   472  548  66     741  884    960  misc
+
+EXPLANATION: After navigating to /proc and using ls, I can see the meminfo and cpuinfo files on the right side to all
+of these numbers, which contain info about memory and the cpu's on my server respectively.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+7) Use head to check the memory information file you found above. How much total memory is on your server?
+
+COMMAND AND RESULT:
+bui@f6linuxA7:/proc$ head meminfo
+MemTotal:        4049408 kB
+MemFree:          350528 kB
+MemAvailable:    1016832 kB
+Buffers:           21440 kB
+Cached:           990208 kB
+SwapCached:        10944 kB
+Active:           151552 kB
+Inactive:         983936 kB
+Active(anon):      40832 kB
+Inactive(anon):   101312 kB
+
+EXPLANATION: The MemTotal is the total memory on my server: 4049408 kB.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+8) Then use tail to check the cpu information file you found above.
+   How many processors are on your server? What is the processor architecture name? What is the processor speed in GHz?
+
+COMMAND AND RESULT:
+bui@f6linuxA7:/proc$ tail cpuinfo
+processor	: 79
+cpu		: POWER8 (architected), altivec supported
+clock		: 4190.000000MHz
+revision	: 2.0 (pvr 004d 0200)
+
+timebase	: 512000000
+platform	: pSeries
+model		: IBM,9080-MHE
+machine		: CHRP IBM,9080-MHE
+MU		: Hash
+
+EXPLANATION: The number of processors on my server is 79. The processor architecture is POWER8 (I think it is that attribute
+but not sure). The processor speed in GHz is the clock speed in MHz divided by 1000, which is 4.19 GHz.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+9) What is the size in GB (GigaBytes) of the Amazon customer reviews uncompressed (gunzipped) file you downloaded?
+
+COMMANDS AND RESULTS:
+bui@f6linuxA7:/proc$ cd ~
+
+bui@f6linuxA7:~$ stat amazon_reviews_us_Books_v1_02.tsv 
+  File: amazon_reviews_us_Books_v1_02.tsv
+  Size: 3238702530	Blocks: 6325600    IO Block: 4096   regular file
+Device: 802h/2050d	Inode: 4718677     Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1001/     bui)   Gid: ( 1001/     bui)
+Access: 2021-09-13 23:21:50.959152521 +0000
+odify: 2017-11-24 15:10:21.000000000 +0000
+Change: 2021-08-29 23:39:34.434804182 +0000
+ Birth: -
+
+EXPLANATION: The size is given in bytes, so in GB the size of the file is 3238702530 / (1024^3) = 3.016 GB (approx).
+
+-----------------------------------------------------------------------------------------------------------------------------------
+10) Search in the Amazon customer reviews file for the case-insensitive word "great" (i.e. "Great" or "GREAT" also count).
+How many reviews contain this word? You can use grep (case-insensitive) and wc.
+
+COMMANDS AND RESULTS:
+bui@f6linuxA7:~$ grep -io great amazon_reviews_us_Books_v1_02.tsv > count_great.txt
+
+bui@f6linuxA7:~$ wc count_great.txt 
+1226812 1226812 7360872 count_great.txt
+
+bui@f6linuxA7:~$ exit
+
+EXPLANATION: I used grep -io to find all instance of "great" without caring about letter cases, and only appended all
+instances of the single word "great" of any capitalization variation to the count_great.txt file. Then, I counted
+all words in the file since it only contains "great." The total was 1226812 reviews that had some variation of the
+word "great" in them.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Script done on 2021-09-13 23:40:04+00:00 [COMMAND_EXIT_CODE="0"]
